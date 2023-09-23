@@ -40,28 +40,10 @@ class SamplingBehaviour(DecisionMakerBaseBehaviour):
     matching_round = SamplingRound
 
     @property
-    def available_liquid_bets(self) -> Iterator[Bet]:
-        """Get an iterator of the liquid unprocessed bets."""
-        bets = self.synchronized_data.bets
-        return filter(lambda bet: bet.status == BetStatus.UNPROCESSED & bet.scaledLiquidityMeasure > 0, bets)
-    
-    @property
     def available_bets(self) -> Iterator[Bet]:
         """Get an iterator of the unprocessed bets."""
         bets = self.synchronized_data.bets
-        return filter(lambda bet: bet.status == BetStatus.UNPROCESSED, bets)
-
-    def rand_sampled_bet_idx(self, bets: List[Bet]) -> int:
-        """
-        Sample a bet and return its id.
-
-        This sampling logic returns a random index of all liquid bets.
-
-        :param bets: the bets' values to compare for the sampling.
-        :return: the id of the sampled bet, out of all the available bets, not only the given ones.      
-        """
-        return self.synchronized_data.bets.index(randrange(max(bets)))
-
+        return filter(lambda bet: bet.status == BetStatus.UNPROCESSED & bet.scaledLiquidityMeasure > 5, bets)
 
     def _sampled_bet_idx(self, bets: List[Bet]) -> int:
         """
@@ -73,7 +55,11 @@ class SamplingBehaviour(DecisionMakerBaseBehaviour):
         :param bets: the bets' values to compare for the sampling.
         :return: the id of the sampled bet, out of all the available bets, not only the given ones.
         """
-        return self.synchronized_data.bets.index(max(bets))
+        idx = randrange(len(bets))
+        msg = f"Sampled bet Index: {idx}"
+        self.context.logger.info(msg)
+
+        return self.synchronized_data.bets.index(bets[idx])
 
     def _set_processed(self, idx: int) -> Optional[str]:
         """Update the bet's status for the given id to `PROCESSED`, and return the updated bets list, serialized."""
@@ -83,19 +69,22 @@ class SamplingBehaviour(DecisionMakerBaseBehaviour):
 
     def _sample(self) -> Tuple[Optional[str], Optional[int]]:
         """Sample a bet and return the bets, serialized, with the sampled bet marked as processed, and its index."""
-        available_bets = list(self.available_liquid_bets)
+        available_bets = list(self.available_bets)
 
         if len(available_bets) == 0:
             msg = "There were no unprocessed bets available to sample from!"
             self.context.logger.warning(msg)
             return None, None
 
-        idx = self.rand_sampled_bet_idx(available_bets)
+        idx = self._sampled_bet_idx(available_bets)
 
-        maxidx = self._sampled_bet_idx(available_bets)
+        if self.synchronized_data.bets[idx].scaledLiquidityMeasure == 0:
+            msg = "There were no unprocessed bets with non-zero liquidity!"
+            self.context.logger.warning(msg)
+            return None, None
 
         bets = self._set_processed(idx)
-        msg = f"Sampled bet idx {idx}: {self.synchronized_data.bets[idx]}, Max Liquid Bet Idx: {maxidx}"
+        msg = f"Sampled bet: {self.synchronized_data.bets[idx]}"
         self.context.logger.info(msg)
         return bets, idx
 
