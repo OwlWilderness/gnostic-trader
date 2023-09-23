@@ -40,12 +40,16 @@ class SamplingBehaviour(DecisionMakerBaseBehaviour):
     matching_round = SamplingRound
 
     @property
-
-
     def available_liquid_bets(self) -> Iterator[Bet]:
         """Get an iterator of the liquid unprocessed bets."""
         bets = self.synchronized_data.bets
         return filter(lambda bet: bet.status == BetStatus.UNPROCESSED & bet.scaledLiquidityMeasure > 0, bets)
+    
+    @property
+    def available_bets(self) -> Iterator[Bet]:
+        """Get an iterator of the unprocessed bets."""
+        bets = self.synchronized_data.bets
+        return filter(lambda bet: bet.status == BetStatus.UNPROCESSED, bets)
 
     def rand_sampled_bet_idx(self, bets: List[Bet]) -> int:
         """
@@ -58,10 +62,6 @@ class SamplingBehaviour(DecisionMakerBaseBehaviour):
         """
         return self.synchronized_data.bets.index(randrange(max(bets)))
 
-    def available_bets(self) -> Iterator[Bet]:
-        """Get an iterator of the unprocessed bets."""
-        bets = self.synchronized_data.bets
-        return filter(lambda bet: bet.status == BetStatus.UNPROCESSED, bets)
 
     def _sampled_bet_idx(self, bets: List[Bet]) -> int:
         """
