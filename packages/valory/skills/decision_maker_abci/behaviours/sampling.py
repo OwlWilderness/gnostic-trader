@@ -92,8 +92,10 @@ class SamplingBehaviour(DecisionMakerBaseBehaviour):
 
         idx = self.rand_sampled_bet_idx(available_bets)
 
+        maxidx = self._sampled_bet_idx(available_bets)
+
         bets = self._set_processed(idx)
-        msg = f"Sampled bet: {self.synchronized_data.bets[idx]}"
+        msg = f"Sampled bet idx {idx}: {self.synchronized_data.bets[idx]}, Max Liquid Bet Idx: {maxidx}"
         self.context.logger.info(msg)
         return bets, idx
 
