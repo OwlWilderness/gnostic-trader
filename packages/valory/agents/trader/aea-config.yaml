@@ -15,16 +15,16 @@ connections:
 - valory/ledger:0.19.0:bafybeigfoz7d7si7s4jehvloq2zmiiocpbxcaathl3bxkyarxoerxq7g3a
 - valory/p2p_libp2p_client:0.1.0:bafybeihdnfdth3qgltefgrem7xyi4b3ejzaz67xglm2hbma2rfvpl2annq
 contracts:
-- valory/gnosis_safe:0.1.0:bafybeih6d3vxz3jlgodxm5b2qcwsmansqj4xobuyd6hjnhzremuvd65yrm
-- valory/gnosis_safe_proxy_factory:0.1.0:bafybeid6glyjikjxmefwmhn62cxiofophegjmg2z5vqqsvk6tmyunwc274
-- valory/service_registry:0.1.0:bafybeige6pubafkiqmaiyuql6pcojm6fvh5thvhrsapi53au2rhuumqymu
-- valory/market_maker:0.1.0:bafybeidaz4dol7qsrwitw5jwasjtvd2vtlxhxizwkzen5kurblwacz4biu
-- valory/erc20:0.1.0:bafybeid6p64a6tnovatbwybc6ocdd4u7bqkxsb4ks52rvf7ozcxxl6iaf4
-- valory/multisend:0.1.0:bafybeieg4tywd5lww2vygvpkilg3hcepa4rmhehjuamyvdf6vazt554v6u
-- valory/mech:0.1.0:bafybeiddc6pgurpyja2k64wzsb3jgcvl254s7rplgt5iooftsyfalqlbfq
 - valory/conditional_tokens:0.1.0:bafybeigryh3d4iuyj4nruwekvurnnbzyj77flmn4vtgatwdpvbn2erpffa
+- valory/erc20:0.1.0:bafybeidze7acv5qct3bptfnkal6h3ekapyy2mby4ru7vmjm2k534crxlfu
+- valory/gnosis_safe:0.1.0:bafybeiaehoffbepv35garrtqwgnrlqj5xkbnl35jqnu6zgrp5sizwy7sry
+- valory/gnosis_safe_proxy_factory:0.1.0:bafybeid6glyjikjxmefwmhn62cxiofophegjmg2z5vqqsvk6tmyunwc274
+- valory/market_maker:0.1.0:bafybeicuuybimg74s7kbez5rygejklx4yvhdyxjm2gfjjwwy3qbghnkm7e
+- valory/mech:0.1.0:bafybeigne6quyq2dcpnc33on4ec2y6c3d5grt5mhx7gfwbd4sgdk7wyx3q
+- valory/multisend:0.1.0:bafybeieg4tywd5lww2vygvpkilg3hcepa4rmhehjuamyvdf6vazt554v6u
 - valory/realitio:0.1.0:bafybeiewpazpi2wgixmiu64kauwn7qes3xzphqid4pxvznm2himv4tciee
 - valory/realitio_proxy:0.1.0:bafybeibvndq6756qck7forgeavhdbn6ykgqs2ufyg7n5g6qdfpveatxuwy
+- valory/service_registry:0.1.0:bafybeige6pubafkiqmaiyuql6pcojm6fvh5thvhrsapi53au2rhuumqymu
 protocols:
 - open_aea/signing:1.0.0:bafybeifuxs7gdg2okbn7uofymenjlmnih2wxwkym44lsgwmklgwuckxm2m
 - valory/abci:0.1.0:bafybeigootsvqpk6th5xpdtzanxum3earifrrezfyhylfrit7yvqdrtgpe
@@ -37,14 +37,14 @@ protocols:
 skills:
 - valory/abstract_abci:0.1.0:bafybeigafjci7m7ezwzasav5xqo7v2mbxxn7qb4y7vnuc2wr2irzvn7wsy
 - valory/abstract_round_abci:0.1.0:bafybeih2fyfb6kkf7r45pvdk7pyyebr5xloia4xiqxtb3qsrasnstqmepq
-- valory/registration_abci:0.1.0:bafybeibndt6vxiwc2edgtaxpjbhwto3eyu33ujz3zmvtygvo2qz7xme5li
-- valory/reset_pause_abci:0.1.0:bafybeigeoc363gv3wp2rrmk6p2fdxney33nxd3owtpfugzapgruwe4klyu
-- valory/termination_abci:0.1.0:bafybeigqpij2sgrpnilqjljfciixop4fldq5qceixc7534q6af4potdmdm
-- valory/transaction_settlement_abci:0.1.0:bafybeia7rzsbea3ch4gcafyp3z6uvqh4npws2xpdwbkkdbrqqpjops7nui
-- valory/tx_settlement_multiplexer_abci:0.1.0:bafybeibkxfazp3v4aovn2leljccrwui5rgj3lrap64s3jhxqf2ibl5fedm
-- valory/market_manager_abci:0.1.0:bafybeifxl2mc5utmy6hjwecdiegua42u6azexadcyaxfnuj4sp473f74o4
-- valory/decision_maker_abci:0.1.0:bafybeibkewecp6bo7x4hzah3e3gt5nnzu5zoweq455prfsgdllzywywlea
-- valory/trader_abci:0.1.0:bafybeicpiza7qcmfvblzodukj6ut5gvmpxneo6xe5bppe7ayqjrfop32ye
+- valory/decision_maker_abci:0.1.0:bafybeicnh22gskwcxmv4dlitxpxtqwjzjjjcgayllbowpmheqbiwzimgsu
+- valory/market_manager_abci:0.1.0:bafybeihunyix6yk2har65pmddpkep4ivmutytbbfzggicacqjwhoqz6lgy
+- valory/registration_abci:0.1.0:bafybeiadaqfp4z7qtoyrct3szn2hx6mb3x2drnl4w2b2unqum3dsnt7jtq
+- valory/reset_pause_abci:0.1.0:bafybeigcfuzvgi7q63a3n5n3ir6xav2qqw365dr26x3kd3dlist3jqfnl4
+- valory/termination_abci:0.1.0:bafybeiggstdudrdenottxrfs3ep5phb4dkjwv6hbeehqfkzgd5e257sdiq
+- valory/trader_abci:0.1.0:bafybeiaihdzelaamzogbfl5mf6uxfc5ohidziaeaqa2zyvlyqtztaxktre
+- valory/transaction_settlement_abci:0.1.0:bafybeih4ilhuxr4fokmkw4cz6earos4vlw3f3bjpohbo5gdsdisvscjoce
+- valory/tx_settlement_multiplexer_abci:0.1.0:bafybeic5i5t5s2a7iltlrr3rqall5igegeq2hyxlyxdnxbnlkj6qls2xye
 default_ledger: ethereum
 required_ledgers:
 - ethereum
@@ -146,8 +146,8 @@ models:
       max_healthcheck: ${int:43200}
       multisend_address: ${str:0xA238CBeb142c10Ef7Ad8442C6D1f9E89e07e7761}
       drand_public_key: ${str:868f005eb8e6e4ca0a47c8a77ceaa5309a47978a7c71bc5cce96366b5d7a569937c529eeda66c7293784a9402801af31}
-      service_registry_address: ${str:null}
-      agent_registry_address: ${str:null}
+      service_registry_address: ${str:0x0000000000000000000000000000000000000000}
+      agent_registry_address: ${str:0x0000000000000000000000000000000000000000}
       share_tm_config_on_startup: ${bool:false}
       sleep_time: ${int:10}
       tendermint_p2p_url: ${str:localhost:26656}

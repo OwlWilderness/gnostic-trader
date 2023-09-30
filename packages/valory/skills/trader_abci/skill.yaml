@@ -20,13 +20,13 @@ contracts: []
 protocols: []
 skills:
 - valory/abstract_round_abci:0.1.0:bafybeih2fyfb6kkf7r45pvdk7pyyebr5xloia4xiqxtb3qsrasnstqmepq
-- valory/registration_abci:0.1.0:bafybeibndt6vxiwc2edgtaxpjbhwto3eyu33ujz3zmvtygvo2qz7xme5li
-- valory/reset_pause_abci:0.1.0:bafybeigeoc363gv3wp2rrmk6p2fdxney33nxd3owtpfugzapgruwe4klyu
-- valory/transaction_settlement_abci:0.1.0:bafybeia7rzsbea3ch4gcafyp3z6uvqh4npws2xpdwbkkdbrqqpjops7nui
-- valory/termination_abci:0.1.0:bafybeigqpij2sgrpnilqjljfciixop4fldq5qceixc7534q6af4potdmdm
-- valory/market_manager_abci:0.1.0:bafybeifxl2mc5utmy6hjwecdiegua42u6azexadcyaxfnuj4sp473f74o4
-- valory/decision_maker_abci:0.1.0:bafybeibkewecp6bo7x4hzah3e3gt5nnzu5zoweq455prfsgdllzywywlea
-- valory/tx_settlement_multiplexer_abci:0.1.0:bafybeibkxfazp3v4aovn2leljccrwui5rgj3lrap64s3jhxqf2ibl5fedm
+- valory/decision_maker_abci:0.1.0:bafybeicnh22gskwcxmv4dlitxpxtqwjzjjjcgayllbowpmheqbiwzimgsu
+- valory/market_manager_abci:0.1.0:bafybeihunyix6yk2har65pmddpkep4ivmutytbbfzggicacqjwhoqz6lgy
+- valory/registration_abci:0.1.0:bafybeiadaqfp4z7qtoyrct3szn2hx6mb3x2drnl4w2b2unqum3dsnt7jtq
+- valory/reset_pause_abci:0.1.0:bafybeigcfuzvgi7q63a3n5n3ir6xav2qqw365dr26x3kd3dlist3jqfnl4
+- valory/termination_abci:0.1.0:bafybeiggstdudrdenottxrfs3ep5phb4dkjwv6hbeehqfkzgd5e257sdiq
+- valory/transaction_settlement_abci:0.1.0:bafybeih4ilhuxr4fokmkw4cz6earos4vlw3f3bjpohbo5gdsdisvscjoce
+- valory/tx_settlement_multiplexer_abci:0.1.0:bafybeic5i5t5s2a7iltlrr3rqall5igegeq2hyxlyxdnxbnlkj6qls2xye
 behaviours:
   main:
     args: {}
@@ -57,6 +57,18 @@ models:
   abci_dialogues:
     args: {}
     class_name: AbciDialogues
+  agent_tools:
+    args:
+      api_id: agent_tools
+      headers:
+        Content-Type: application/json
+      method: GET
+      parameters: {}
+      response_key: tools
+      response_type: list
+      retries: 5
+      url: ''
+    class_name: AgentToolsSpecs
   benchmark_tool:
     args:
       log_dir: /logs
@@ -73,11 +85,69 @@ models:
   ledger_api_dialogues:
     args: {}
     class_name: LedgerApiDialogues
+  mech_response:
+    args:
+      api_id: mech_response
+      headers:
+        Content-Type: application/json
+      method: GET
+      parameters: {}
+      response_key: null
+      response_type: dict
+      retries: 5
+      url: ''
+    class_name: MechResponseSpecs
+  network_subgraph:
+    args:
+      api_id: network
+      headers:
+        Content-Type: application/json
+      method: POST
+      parameters: {}
+      response_index: 0
+      response_key: data:blocks
+      response_type: dict
+      retries: 5
+      url: https://api.thegraph.com/subgraphs/name/stakewise/ethereum-gnosis
+    class_name: NetworkSubgraph
+  omen_subgraph:
+    args:
+      api_id: omen
+      headers:
+        Content-Type: application/json
+      method: POST
+      parameters: {}
+      response_key: data:fixedProductMarketMakers
+      response_type: list
+      retries: 5
+      url: https://api.thegraph.com/subgraphs/name/protofire/omen-xdai
+    class_name: OmenSubgraph
   params:
     args:
+      abt_error_mult: 5
+      agent_registry_address: null
+      average_block_time: 5
+      bet_amount_per_threshold:
+        0.0: 0
+        0.1: 0
+        0.2: 0
+        0.3: 0
+        0.4: 0
+        0.5: 0
+        0.6: 0
+        0.7: 0
+        0.8: 0
+        0.9: 0
+        1.0: 0
+      bet_threshold: 100000000000000000
+      blacklisting_duration: 3600
       cleanup_history_depth: 1
       cleanup_history_depth_current: null
+      conditional_tokens_address: '0xCeAfDD6bc0bEF976fdCd1112955828E00543c0Ce'
+      creator_per_subgraph:
+        omen_subgraph: []
       drand_public_key: 868f005eb8e6e4ca0a47c8a77ceaa5309a47978a7c71bc5cce96366b5d7a569937c529eeda66c7293784a9402801af31
+      dust_threshold: 10000000000000
       finalize_timeout: 60.0
       genesis_config:
         genesis_time: '2022-05-20T16:00:21.735122717Z'
@@ -98,80 +168,7 @@ models:
         voting_power: '10'
       history_check_timeout: 1205
       init_fallback_gas: 0
-      keeper_allowed_retries: 3
-      keeper_timeout: 30.0
-      max_attempts: 10
-      max_healthcheck: 120
-      multisend_address: '0x0000000000000000000000000000000000000000'
-      on_chain_service_id: null
-      request_retry_delay: 1.0
-      request_timeout: 10.0
-      reset_pause_duration: 10
-      reset_tendermint_after: 2
-      retry_attempts: 400
-      retry_timeout: 3
-      use_slashing: false
-      slash_cooldown_hours: 3
-      slash_threshold_amount: 10000000000000000
-      light_slash_unit_amount: 5000000000000000
-      serious_slash_unit_amount: 8000000000000000
-      round_timeout_seconds: 350.0
-      service_id: trader
-      service_registry_address: null
-      agent_registry_address: null
-      setup:
-        all_participants:
-        - '0x0000000000000000000000000000000000000000'
-        safe_contract_address: '0x0000000000000000000000000000000000000000'
-        consensus_threshold: null
-      share_tm_config_on_startup: false
-      sleep_time: 5
-      tendermint_check_sleep_delay: 3
-      tendermint_com_url: http://localhost:8080
-      tendermint_max_retries: 5
-      tendermint_p2p_url: localhost:26656
-      tendermint_url: http://localhost:26657
-      termination_sleep: 900
-      tx_timeout: 10.0
-      use_termination: false
-      validate_timeout: 1205
-      creator_per_subgraph:
-        omen_subgraph: []
-      slot_count: 2
-      opening_margin: 300
-      languages:
-      - en_US
-      average_block_time: 5
-      abt_error_mult: 5
-      mech_agent_address: '0xff82123dfb52ab75c417195c5fdb87630145ae81'
-      bet_amount_per_threshold:
-        0.0: 0
-        0.1: 0
-        0.2: 0
-        0.3: 0
-        0.4: 0
-        0.5: 0
-        0.6: 0
-        0.7: 0
-        0.8: 0
-        0.9: 0
-        1.0: 0
-      bet_threshold: 100000000000000000
-      blacklisting_duration: 3600
       ipfs_address: https://gateway.autonolas.tech/ipfs/
-      prompt_template: With the given question "@{question}" and the `yes` option
-        represented by `@{yes}` and the `no` option represented by `@{no}`, what are
-        the respective probabilities of `p_yes` and `p_no` occurring?
-      dust_threshold: 10000000000000
-      conditional_tokens_address: '0xCeAfDD6bc0bEF976fdCd1112955828E00543c0Ce'
-      realitio_proxy_address: '0xAB16D643bA051C11962DA645f74632d3130c81E2'
-      realitio_address: '0x79e32aE03fb27B07C89c0c568F80287C01ca2E57'
-      redeeming_batch_size: 5
-      slippage: 0.01
-      redeem_margin_days: 15
-      max_rpc_timeout_days: 25
-      policy_epsilon: 0.1
-      policy_store_path: /data/
       irrelevant_tools:
       - openai-text-davinci-002
       - openai-text-davinci-003
@@ -181,32 +178,59 @@ models:
       - stabilityai-stable-diffusion-xl-beta-v2-2-2
       - stabilityai-stable-diffusion-512-v2-1
       - stabilityai-stable-diffusion-768-v2-1
+      keeper_allowed_retries: 3
+      keeper_timeout: 30.0
+      languages:
+      - en_US
+      light_slash_unit_amount: 5000000000000000
+      max_attempts: 10
+      max_healthcheck: 120
+      max_rpc_timeout_days: 25
+      mech_agent_address: '0xff82123dfb52ab75c417195c5fdb87630145ae81'
+      multisend_address: '0x0000000000000000000000000000000000000000'
+      on_chain_service_id: null
+      opening_margin: 300
+      policy_epsilon: 0.1
+      policy_store_path: /data/
+      prompt_template: With the given question "@{question}" and the `yes` option
+        represented by `@{yes}` and the `no` option represented by `@{no}`, what are
+        the respective probabilities of `p_yes` and `p_no` occurring?
+      realitio_address: '0x79e32aE03fb27B07C89c0c568F80287C01ca2E57'
+      realitio_proxy_address: '0xAB16D643bA051C11962DA645f74632d3130c81E2'
+      redeem_margin_days: 15
+      redeeming_batch_size: 5
+      request_retry_delay: 1.0
+      request_timeout: 10.0
+      reset_pause_duration: 10
+      reset_tendermint_after: 2
+      retry_attempts: 400
+      retry_timeout: 3
+      round_timeout_seconds: 350.0
+      serious_slash_unit_amount: 8000000000000000
+      service_id: trader
+      service_registry_address: null
+      setup:
+        all_participants:
+        - '0x0000000000000000000000000000000000000000'
+        safe_contract_address: '0x0000000000000000000000000000000000000000'
+        consensus_threshold: null
+      share_tm_config_on_startup: false
+      slash_cooldown_hours: 3
+      slash_threshold_amount: 10000000000000000
+      sleep_time: 5
+      slippage: 0.01
+      slot_count: 2
+      tendermint_check_sleep_delay: 3
+      tendermint_com_url: http://localhost:8080
+      tendermint_max_retries: 5
+      tendermint_p2p_url: localhost:26656
+      tendermint_url: http://localhost:26657
+      termination_sleep: 900
+      tx_timeout: 10.0
+      use_slashing: false
+      use_termination: false
+      validate_timeout: 1205
     class_name: TraderParams
-  network_subgraph:
-    args:
-      api_id: network
-      headers:
-        Content-Type: application/json
-      method: POST
-      parameters: {}
-      response_key: data:blocks
-      response_index: 0
-      response_type: dict
-      retries: 5
-      url: https://api.thegraph.com/subgraphs/name/stakewise/ethereum-gnosis
-    class_name: NetworkSubgraph
-  omen_subgraph:
-    args:
-      api_id: omen
-      headers:
-        Content-Type: application/json
-      method: POST
-      parameters: {}
-      response_key: data:fixedProductMarketMakers
-      response_type: list
-      retries: 5
-      url: https://api.thegraph.com/subgraphs/name/protofire/omen-xdai
-    class_name: OmenSubgraph
   randomness_api:
     args:
       api_id: cloudflare
@@ -218,30 +242,6 @@ models:
       retries: 5
       url: https://drand.cloudflare.com/public/latest
     class_name: RandomnessApi
-  mech_response:
-    args:
-      api_id: mech_response
-      headers:
-        Content-Type: application/json
-      method: GET
-      parameters: {}
-      response_key: null
-      response_type: dict
-      retries: 5
-      url: ''
-    class_name: MechResponseSpecs
-  agent_tools:
-    args:
-      api_id: agent_tools
-      headers:
-        Content-Type: application/json
-      method: GET
-      parameters: {}
-      response_key: tools
-      response_type: list
-      retries: 5
-      url: ''
-    class_name: AgentToolsSpecs
   requests:
     args: {}
     class_name: Requests

@@ -18,7 +18,7 @@ fingerprint:
   graph_tooling/queries/omen.py: bafybeicatte7cinlzcmubkoyne7fgvuedimvotf4pvhacozsy7ndftmmdy
   graph_tooling/requests.py: bafybeicv7hdo4a56pqteaxoxi5tskfbb34u2ajmhu7canoco3mi3jv6fmy
   handlers.py: bafybeihot2i2yvfkz2gcowvt66wdu6tkjbmv7hsmc4jzt4reqeaiuphbtu
-  models.py: bafybeihblwtf4qotdvffb5yln7iiiqg5mx7fg5cpgj2qsa6vre3tnbk7im
+  models.py: bafybeifeljnh6msqfyxg3avctbdvgxiubwdj3varzezvebrujoota564bi
   payloads.py: bafybeiamavgddfbzofpsjthmw6j7g2dyxm7fb6hvdb47kweyrx4w2ihcfi
   rounds.py: bafybeib2jkzzpnmx6eebw3cw6t2hlzxktumbzrerjlowlpv532eink6g7e
 fingerprint_ignore_patterns: []
@@ -73,10 +73,39 @@ models:
   ledger_api_dialogues:
     args: {}
     class_name: LedgerApiDialogues
+  network_subgraph:
+    args:
+      api_id: network
+      headers:
+        Content-Type: application/json
+      method: POST
+      parameters: {}
+      response_index: 0
+      response_key: data:blocks
+      response_type: dict
+      retries: 5
+      url: https://api.thegraph.com/subgraphs/name/stakewise/ethereum-gnosis
+    class_name: NetworkSubgraph
+  omen_subgraph:
+    args:
+      api_id: omen
+      headers:
+        Content-Type: application/json
+      method: POST
+      parameters: {}
+      response_key: data:fixedProductMarketMakers
+      response_type: list
+      retries: 5
+      url: https://api.thegraph.com/subgraphs/name/protofire/omen-xdai
+    class_name: OmenSubgraph
   params:
     args:
+      abt_error_mult: 5
+      average_block_time: 5
       cleanup_history_depth: 1
       cleanup_history_depth_current: null
+      creator_per_subgraph:
+        omen_subgraph: []
       drand_public_key: 868f005eb8e6e4ca0a47c8a77ceaa5309a47978a7c71bc5cce96366b5d7a569937c529eeda66c7293784a9402801af31
       genesis_config:
         genesis_time: '2022-05-20T16:00:21.735122717Z'
@@ -96,10 +125,16 @@ models:
           version: {}
         voting_power: '10'
       keeper_timeout: 30.0
+      languages:
+      - en_US
+      light_slash_unit_amount: 5000000000000000
       max_attempts: 10
       max_healthcheck: 120
+      max_rpc_timeout_days: 25
       multisend_address: '0x0000000000000000000000000000000000000000'
       on_chain_service_id: null
+      opening_margin: 300
+      redeem_margin_days: 15
       request_retry_delay: 1.0
       request_timeout: 10.0
       reset_pause_duration: 10
@@ -107,6 +142,7 @@ models:
       retry_attempts: 400
       retry_timeout: 3
       round_timeout_seconds: 350.0
+      serious_slash_unit_amount: 8000000000000000
       service_id: market_manager
       service_registry_address: null
       setup:
@@ -115,7 +151,10 @@ models:
         safe_contract_address: '0x0000000000000000000000000000000000000000'
         consensus_threshold: null
       share_tm_config_on_startup: false
+      slash_cooldown_hours: 3
+      slash_threshold_amount: 10000000000000000
       sleep_time: 5
+      slot_count: 2
       tendermint_check_sleep_delay: 3
       tendermint_com_url: http://localhost:8080
       tendermint_max_retries: 5
@@ -123,48 +162,9 @@ models:
       tendermint_url: http://localhost:26657
       termination_sleep: 900
       tx_timeout: 10.0
-      use_termination: false
       use_slashing: false
-      slash_cooldown_hours: 3
-      slash_threshold_amount: 10000000000000000
-      light_slash_unit_amount: 5000000000000000
-      serious_slash_unit_amount: 8000000000000000
-      creator_per_subgraph:
-        omen_subgraph: []
-      slot_count: 2
-      opening_margin: 300
-      languages:
-      - en_US
-      average_block_time: 5
-      abt_error_mult: 5
-      redeem_margin_days: 15
-      max_rpc_timeout_days: 25
+      use_termination: false
     class_name: MarketManagerParams
-  network_subgraph:
-    args:
-      api_id: network
-      headers:
-        Content-Type: application/json
-      method: POST
-      parameters: {}
-      response_key: data:blocks
-      response_index: 0
-      response_type: dict
-      retries: 5
-      url: https://api.thegraph.com/subgraphs/name/stakewise/ethereum-gnosis
-    class_name: NetworkSubgraph
-  omen_subgraph:
-    args:
-      api_id: omen
-      headers:
-        Content-Type: application/json
-      method: POST
-      parameters: {}
-      response_key: data:fixedProductMarketMakers
-      response_type: list
-      retries: 5
-      url: https://api.thegraph.com/subgraphs/name/protofire/omen-xdai
-    class_name: OmenSubgraph
   requests:
     args: {}
     class_name: Requests
