@@ -77,18 +77,17 @@ class MarketManagerParams(BaseParams):
         self.abt_error_mult: int = self._ensure("abt_error_mult", kwargs, int)
         self._redeem_margin_days: int = 0
         self.redeem_margin_days = self._ensure("redeem_margin_days", kwargs, int)
-        self._max_rpc_timeout_days: int = 25
         self.max_rpc_timeout_days = self._ensure("max_rpc_timeout_days", kwargs, int)
         super().__init__(*args, **kwargs)
 
     @property
     def max_rpc_timeout_days(self) -> int:
          """Get the rpc max timeout in days."""
-         return self._max_rpc_timeout_days
+         return self.max_rpc_timeout_days
       
     @max_rpc_timeout_days.setter
     def max_rpc_timeout_days(self, max_rpc_timeout_days: int) -> None:
-        self._max_rpc_timeout_days = max_rpc_timeout_days
+        self.max_rpc_timeout_days = max_rpc_timeout_days
 
     @property
     def redeem_margin_days(self) -> int:
