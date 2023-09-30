@@ -24,9 +24,9 @@ skills:
 - valory/reset_pause_abci:0.1.0:bafybeigeoc363gv3wp2rrmk6p2fdxney33nxd3owtpfugzapgruwe4klyu
 - valory/transaction_settlement_abci:0.1.0:bafybeia7rzsbea3ch4gcafyp3z6uvqh4npws2xpdwbkkdbrqqpjops7nui
 - valory/termination_abci:0.1.0:bafybeigqpij2sgrpnilqjljfciixop4fldq5qceixc7534q6af4potdmdm
-- valory/market_manager_abci:0.1.0:bafybeidnqerwkljbjgog73qaa5duu5ymsfjs6jsszeupseshx7go3n6afq
-- valory/decision_maker_abci:0.1.0:bafybeienzc3c5xygb4z3l57zivtc3zexpoochjzmiil7pv646jhxrgetqm
-- valory/tx_settlement_multiplexer_abci:0.1.0:bafybeidj6a3arhm6wpswofka3liwdaofv5dh5x5dv2sbvgqrrnb6djdr5q
+- valory/market_manager_abci:0.1.0:bafybeiezvgeliwdggkyd3qv6yguulyf7x42e5jmrgtnj7gutwhfbjbc45y
+- valory/decision_maker_abci:0.1.0:bafybeiczndut2cts4b7guh2pfja7cazy7kggysfpfa62zugyllhzjhnkeq
+- valory/tx_settlement_multiplexer_abci:0.1.0:bafybeiarnlsdtnrlth2eggxnzxuhglhi3dvm7oeuaycgonpnv2j4wmxnjq
 behaviours:
   main:
     args: {}
@@ -169,6 +169,7 @@ models:
       redeeming_batch_size: 5
       slippage: 0.01
       redeem_margin_days: 15
+      max_rpc_timeout_days: 25
       policy_epsilon: 0.1
       policy_store_path: /data/
       irrelevant_tools:

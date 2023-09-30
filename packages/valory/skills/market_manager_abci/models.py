@@ -38,7 +38,7 @@ Requests = BaseRequests
 BenchmarkTool = BaseBenchmarkTool
 
 
-GNOSIS_RPC_TIMEOUT_DAYS = 25
+#GNOSIS_RPC_TIMEOUT_DAYS = 25
 
 
 class SharedState(BaseSharedState):
@@ -77,19 +77,29 @@ class MarketManagerParams(BaseParams):
         self.abt_error_mult: int = self._ensure("abt_error_mult", kwargs, int)
         self._redeem_margin_days: int = 0
         self.redeem_margin_days = self._ensure("redeem_margin_days", kwargs, int)
+        self._max_rpc_timeout_days: int = 25
+        self.max_rpc_timeout_days = self._ensure("max_rpc_timeout_days", kwargs, int)
         super().__init__(*args, **kwargs)
+
+    @property
+    def max_rpc_timeout_days(self) -> int:
+         """Get the rpc max timeout in days."""
+         return self._max_rpc_timeout_days
+      
+    @max_rpc_timeout_days.setter
+    def max_rpc_timeout_days(self, max_rpc_timeout_days: int) -> None:
 
     @property
     def redeem_margin_days(self) -> int:
         """Get the margin in days of the redeeming information."""
         return self._redeem_margin_days
-
+  
     @redeem_margin_days.setter
     def redeem_margin_days(self, redeem_margin_days: int) -> None:
         """Get the margin in days of the redeeming information."""
         value_enforcement = (
-            f"The value needs to be in the exclusive range (0, {GNOSIS_RPC_TIMEOUT_DAYS}) "
-            f"and manual redeeming has to be performed for markets older than {GNOSIS_RPC_TIMEOUT_DAYS - 1} days."
+            f"The value needs to be in the exclusive range (0, {self.max_rpc_timeout_days}) "
+            f"and manual redeeming has to be performed for markets older than {self.max_rpc_timeout_days - 1} days."
         )
 
         if redeem_margin_days <= 0:
@@ -97,14 +107,15 @@ class MarketManagerParams(BaseParams):
                 "The margin in days for the redeeming information (`redeem_margin_days`) "
                 f"cannot be set to {redeem_margin_days} <= 0. {value_enforcement}"
             )
-        if redeem_margin_days >= GNOSIS_RPC_TIMEOUT_DAYS:
+        if redeem_margin_days >= self.max_rpc_timeout_days:
             raise ValueError(
                 "Due to a constraint of the Gnosis RPCs, it is not possible to configure the redeeming "
-                f"information's time window to exceed {GNOSIS_RPC_TIMEOUT_DAYS - 1} days "
+                f"information's time window to exceed {self.max_rpc_timeout_days - 1} days "
                 f"(currently {redeem_margin_days=}). To clarify, these RPCs experience timeouts "
                 "when attempting to filter for historical on-chain events. "
                 "Practical testing of the service has revealed that timeouts consistently occur for blocks "
-                f"approximately {GNOSIS_RPC_TIMEOUT_DAYS} days old. {value_enforcement}"
+                f"approximately {self.max_rpc_timeout_days} days old. {value_enforcement}"
+                "To modify the max rpc timeout days set the MAX_RPC_TIMEOUT_DAYS environment variable"
             )
 
         self._redeem_margin_days = redeem_margin_days
