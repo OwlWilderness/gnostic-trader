@@ -88,6 +88,7 @@ class MarketManagerParams(BaseParams):
       
     @max_rpc_timeout_days.setter
     def max_rpc_timeout_days(self, max_rpc_timeout_days: int) -> None:
+        self._max_rpc_timeout_days = max_rpc_timeout_days
 
     @property
     def redeem_margin_days(self) -> int:
