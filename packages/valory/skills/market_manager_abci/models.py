@@ -71,6 +71,9 @@ class MarketManagerParams(BaseParams):
                 f"Only a slot_count `2` is currently supported. `{self.slot_count}` was found in the configuration."
             )
 
+        self.rpc_timeout_days = self._ensure("rpc_timeout_days", kwargs, int)
+        GNOSIS_RPC_TIMEOUT_DAYS = self.rpc_timeout_days
+        
         self.opening_margin: int = self._ensure("opening_margin", kwargs, int)
         self.languages: List[str] = self._ensure("languages", kwargs, List[str])
         self.average_block_time: int = self._ensure("average_block_time", kwargs, int)
