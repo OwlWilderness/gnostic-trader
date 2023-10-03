@@ -41,4 +41,3 @@ autonomy add-key ethereum your_agent_key.txt
 autonomy issue-certificates
 autonomy -s run 
 
-autonomy push-all
