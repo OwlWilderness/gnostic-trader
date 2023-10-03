@@ -39,5 +39,4 @@ echo -n "0x47e179ec197488593b187f80a00eb0da91f1b9d0b13f8733639f19c30a34926a" > y
 autonomy add-key ethereum your_agent_key.txt
 
 autonomy issue-certificates
-autonomy -s run 
 
