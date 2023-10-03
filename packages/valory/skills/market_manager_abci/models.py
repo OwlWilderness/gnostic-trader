@@ -81,6 +81,26 @@ class MarketManagerParams(BaseParams):
         super().__init__(*args, **kwargs)
 
     @property
+    def rpc_timeout_days(self)-> int:
+        """Get the rpc timeout in days of the redeeming information."""
+        return self.rpc_timeout_days
+    
+    @rpc_timeout_days.setter
+    def rpc_timeout_days(self, rpc_timeout_days: int) -> None:
+         """Get the rpc timeout in days of the redeeming information."""
+         value_enforcement = (
+            f"The value needs to be > 0."
+         )
+
+         if rpc_timeout_days <= 0:
+            raise ValueError(
+                "The rpc timeout in days for the redeeming information (`rpc_timeout_days`) "
+                f"cannot be set to {rpc_timeout_days} <= 0. {value_enforcement}"
+            )
+
+         self.max_rpc_timeout_days = rpc_timeout_days
+
+    @property
     def redeem_margin_days(self) -> int:
         """Get the margin in days of the redeeming information."""
         return self._redeem_margin_days
