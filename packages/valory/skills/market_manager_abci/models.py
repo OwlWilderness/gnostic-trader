@@ -38,7 +38,7 @@ Requests = BaseRequests
 BenchmarkTool = BaseBenchmarkTool
 
 
-GNOSIS_RPC_TIMEOUT_DAYS = 90
+GNOSIS_RPC_TIMEOUT_DAYS = 91
 
 
 class SharedState(BaseSharedState):
